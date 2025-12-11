@@ -1,5 +1,6 @@
+#Funcions d'alt nivell per construir la màquina ENIGMA de 3 rotors i oferir el menú.
 from rotor import Rotor, ALPHABET, char_to_index, index_to_char
-
+#Funcions d'alt nivell per construir la màquina ENIGMA de 3 rotors i oferir el menú.
 def load_rotor_from_file(filename):
     try:
         with open(filename, "r", encoding="utf-8") as f:
@@ -26,7 +27,7 @@ def load_rotor_from_file(filename):
     return Rotor(wiring, notch=notch, position=0)
 
 # ---------- Normalización de texto ----------
-
+#Normalitza el text: passa a majúscules i elimina tot el que no sigui una lletra A-Z.
 def normalize_text_for_encrypt(text):
     text = text.upper()
     solo_letras = "".join(ch for ch in text if ch in ALPHABET)
@@ -36,7 +37,7 @@ def normalize_text_for_encrypt(text):
     return solo_letras, " ".join(grupos)
 
 # ---------- Avance de rotors ----------
-
+#Fa avançar els 3 rotors amb la lògica d'odòmetre (quan un completa volta fa avançar el següent).
 def advance_rotors(r1, r2, r3):
     carry = r1.step()
     if carry:
@@ -45,13 +46,13 @@ def advance_rotors(r1, r2, r3):
             r3.step()
 
 # ---------- Cifrar / descifrar un carácter ----------
-
+#Xifra una lletra passant-la pels tres rotors en sentit endavant (teclat → sortida).
 def encrypt_char(c, r1, r2, r3):
     x = r1.encode_forward(c)
     x = r2.encode_forward(x)
     x = r3.encode_forward(x)
     return x
-
+#Desxifra una lletra passant-la pels tres rotors en sentit invers (dreta → esquerra).
 def decrypt_char(c, r1, r2, r3):
     x = r3.encode_backward(c)
     x = r2.encode_backward(x)
@@ -59,7 +60,7 @@ def decrypt_char(c, r1, r2, r3):
     return x
 
 # ---------- Opciones del menú ----------
-
+#Opció 1 del menú: llegeix un missatge, el normalitza, el xifra i escriu Xifrat.txt.
 def option_encrypt():
     print("=== Xifrar missatge ===")
     text = input("Introdueix el missatge en llengua natural: ")
@@ -100,7 +101,7 @@ def option_encrypt():
         f.write(cifrado_str)
 
     print(f"[OK] Missatge xifrat a \"Xifrat.txt\" ({len(cifrado)} lletres)")
-
+#Opció 2 del menú: llegeix Xifrat.txt, desxifra les lletres i escriu desxifrat.txt.
 def option_decrypt():
     print("=== Desxifrar missatge ===")
 
@@ -146,7 +147,7 @@ def option_decrypt():
         f.write(desxifrat_str)
 
     print(f"[OK] Missatge desxifrat a \"desxifrat.txt\" ({len(desxifrat)} lletres)")
-
+#Comprova que una cadena sigui una permutació vàlida de les 26 lletres A-Z sense repeticions.
 def is_valid_permutation(wiring):
     wiring = wiring.upper()
     if len(wiring) != 26:
@@ -156,7 +157,7 @@ def is_valid_permutation(wiring):
     if len(set(wiring)) != 26:
         return False
     return True
-
+#Opció 3 del menú: permet modificar el wiring i el notch d'un dels fitxers de rotor.
 def option_edit_rotors():
     print("=== Editar rotors ===")
     print("Tria rotor a editar:")
@@ -197,7 +198,7 @@ def option_edit_rotors():
 
 
 # ---------- Menú principal ----------
-
+#Bucle principal del programa ENIGMA: mostra el menú i crida l'opció escollida.
 def main():
     while True:
         print("ENIGMA:")
