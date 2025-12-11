@@ -196,7 +196,7 @@ def option_edit_rotors():
     print(f"[OK] Rotor actualitzat i desat a \"{filename}\"")
 
 
-# ---------- Menú principal ----------
+# ---------- Menú principal ----------hola
 
 def main():
     while True:
