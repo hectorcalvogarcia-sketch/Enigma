@@ -197,8 +197,13 @@ def option_edit_rotors():
     print(f"[OK] Rotor actualitzat i desat a \"{filename}\"")
 
 
+<<<<<<< HEAD
 # ---------- Menú principal ----------
 #Bucle principal del programa ENIGMA: mostra el menú i crida l'opció escollida.
+=======
+# ---------- Menú principal ----------hola
+
+>>>>>>> origin/main
 def main():
     while True:
         print("ENIGMA:")
