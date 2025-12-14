@@ -3,19 +3,19 @@ ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 N = len(ALPHABET)
 #Converteix lletres 'A'-'Z' a índexs 0-25 i a l'inrevés per poder fer càlculs modulars.
 def char_to_index(c):
-    """Convierte una letra A-Z en un número 0-25."""
+    """Converteix una lletra A-Z en un número 0-25."""
     return ALPHABET.index(c)
 
 def index_to_char(i):
-    """Convierte un número 0-25 en una letra A-Z."""
+    """Converteix una lletra A-Z en un número 0-25."""
     return ALPHABET[i % N]
 #Classe que modela un rotor amb el seu cablejat intern, la lletra notch i la posició actual.
 class Rotor:
     def __init__(self, wiring, notch="Z", position=0):
         """
-        wiring: string de 26 letras A-Z, permutación (ej: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ')
-        notch: letra donde este rotor hace avanzar al siguiente (ej: 'Q' o 'Z')
-        position: entero 0-25 que indica la posición inicial (A=0, B=1, ...)
+        wiring: string de 26 lletres A-Z, permutació (ex: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ')
+        notch: lletra on aquest rotor fa avançar el següent (ex: 'Q' o 'Z')
+        position: sencer 0-25 que indica la posició inicial (A=0, B=1, ...)
         """
         self.wiring = wiring
         self.notch = notch
@@ -25,7 +25,7 @@ class Rotor:
         self.inverse_wiring = self._compute_inverse_wiring()
 #Calcula el cablejat invers per saber quina lletra d'entrada produeix cada sortida.
     def _compute_inverse_wiring(self):
-        """Devuelve la cadena de 26 letras que hace el mapeo inverso."""
+        """Retorna la cadena de 26 lletres que fa el mapatge invers."""
         inverse = ["?"] * N
         for i, ch in enumerate(self.wiring):
             out_index = char_to_index(ch)
@@ -33,13 +33,13 @@ class Rotor:
         return "".join(inverse)
 #Avança el rotor una posició (com un comptador) i indica si ha arribat a la lletra notch.
     def step(self):
-        """Avanza el rotor una posición (0-25). Devuelve True si está en el notch."""
+        """El rotor avança una posició (0-25). Torna True si és al notch."""
         self.position = (self.position + 1) % N
         current_letter = index_to_char(self.position)
         return current_letter == self.notch
 #Aplica el cablejat del rotor en sentit d'esquerra a dreta, tenint en compte la posició.
     def encode_forward(self, c):
-        """Pasa una letra de entrada (A-Z) hacia adelante por el rotor."""
+        """Passeu una lletra d'entrada (A-Z) cap endavant pel rotor."""
         i = char_to_index(c)
         shifted = (i + self.position) % N
         wired_char = self.wiring[shifted]
@@ -47,7 +47,7 @@ class Rotor:
         return index_to_char(out_index)
 #Aplica el cablejat invers del rotor en sentit de dreta a esquerra per desxifrar.
     def encode_backward(self, c):
-        """Pasa una letra (A-Z) hacia atrás usando el cableado inverso."""
+        """Passa una lletra (A-Z) cap enrere usant el cablatge invers."""
         i = char_to_index(c)
         shifted = (i + self.position) % N
         wired_char = self.inverse_wiring[shifted]
